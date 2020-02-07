@@ -20,3 +20,24 @@ plt.xlabel(r'$\mu$')
 plt.ylabel('Posterior')
 plt.savefig('mean.png')
 plt.show()
+
+mu1=3
+muc=mu1
+count=0
+mul=np.zeros(100000)
+while count<100000:
+    mun=np.random.normal(muc,sig,1)
+    Pi=np.exp(probx(Mu0,sig,mun))
+    Pf=np.exp(probx(Mu0,sig,muc))
+    accr=np.min([1,Pi/Pf * np.exp(probx(mun,sig,muc))/np.exp(probx(muc,sig,mun))])
+    rn=np.random.rand(1)
+    if rn<=accr:
+        mul[count]=mun
+        muc=mun
+        count=count+1
+    else:
+        mul[count]=muc
+        count=count+1
+plt.hist(mul,density=True,bins=1000)
+plt.plot(muL,Pmu)
+plt.show()
